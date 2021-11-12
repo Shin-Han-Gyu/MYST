@@ -9,12 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/todo")
-public class TodoController {
+@RequestMapping("/api")
+public class TaskController {
 
     @ApiOperation(value = "todo 생성")
-    @PostMapping("/")
-    public ResponseEntity<String> createTodo() {
+    @PostMapping("/group-task")
+    public ResponseEntity<String> createGroupTask() {
+        return null;
+    }
+
+    @ApiOperation(value = "todo 생성")
+    @PostMapping("/personal-task")
+    public ResponseEntity<String> createPersonalTask() {
         return null;
     }
 

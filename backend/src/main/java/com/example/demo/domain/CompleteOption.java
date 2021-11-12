@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PermissionType {
-    Delete, Terminate
+public enum CompleteOption {
+    LEADER_PERMISSION, HALF_PERMISSION, PERSONAL_PERMISSION
 }

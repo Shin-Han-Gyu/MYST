@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,8 +15,22 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean isChecked;
+    // db에 row가 있다는게 허가 했다는거니까 없어도 될듯?
+    // private boolean isChecked;
 
     @Enumerated(EnumType.STRING)
-    private PermissionType type;
+    private Type type;
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private GroupTask task;
+
+    @Builder
+    public Permission(User user, GroupTask task, Type type) {
+        this.user = user;
+        this.task = task;
+        this.type = type;
+    }
 }
