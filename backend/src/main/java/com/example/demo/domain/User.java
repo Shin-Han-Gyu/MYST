@@ -24,7 +24,6 @@ public class User implements UserDetails {
     private Long id;
 
     @NotNull
-    @UniqueElements
     private String userId;
 
     @NotNull

@@ -27,17 +27,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("duplication");
     }
 
+    @PostMapping("/sign-up")
+    @ApiOperation(value = "회원가입")
+    public ResponseEntity<SignInResDto> singUp(CreateUserReqDto userInfo) {
+        userService.CreateUser(userInfo);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     @ApiOperation(value = "로그인")
     @PostMapping("/sign-in")
     public ResponseEntity<SignInResDto> signIn(@RequestBody @ApiParam(value = "userId, password") SignInReqDto signInInfo) {
         return null;
-    }
-
-
-    @PostMapping()
-    public ResponseEntity<SignInResDto> singUp(CreateUserReqDto userInfo) {
-        User user = userService.CreateUser(userInfo);
-        return ResponseEntity.status(201).build();
     }
 
     @GetMapping("/{userId}")
