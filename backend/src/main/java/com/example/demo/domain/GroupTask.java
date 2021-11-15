@@ -19,6 +19,8 @@ public class GroupTask {
 
     private String title;
 
+    private String content;
+
     @Enumerated(EnumType.STRING)
     private CompleteOption completeOption;
 
@@ -30,8 +32,9 @@ public class GroupTask {
     private Group group;
 
     @Builder
-    public GroupTask(String title, CompleteOption completeOption, User writer, Group group) {
+    public GroupTask(String title, String content, CompleteOption completeOption, User writer, Group group) {
         this.title = title;
+        this.content = content;
         this.completeOption = completeOption;
         this.writer = writer;
         this.group = group;

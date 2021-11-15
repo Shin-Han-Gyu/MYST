@@ -8,4 +8,5 @@ import lombok.Getter;
 public class TaskReqDto {
 
     private String taskName;
+    private String completeOption;
 }

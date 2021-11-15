@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(indexes = @Index(name="user_task", columnList = "writer"))
+@Table(indexes = {@Index(columnList = "writer"), @Index(columnList = "groupTask")})
 public class PersonalTask {
 
     @Id
@@ -29,9 +29,10 @@ public class PersonalTask {
     private GroupTask groupTask;
 
     @Builder
-    public PersonalTask(String title, User writer) {
+    public PersonalTask(String title, User writer, GroupTask groupTask) {
         this.title = title;
         this.writer = writer;
+        this.groupTask = groupTask;
     }
 
 

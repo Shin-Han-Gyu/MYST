@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskResDto {
 
+    private String taskId;
     private String taskName;
     private String taskDone;
     private List<String> done;
