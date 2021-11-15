@@ -1,10 +1,11 @@
-package com.example.demo.domain;
+package com.example.demo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Type {
-    DELETE, COMPLETE
+public class TaskReqDto {
+
+    private String taskName;
 }

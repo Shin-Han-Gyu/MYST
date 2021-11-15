@@ -3,12 +3,15 @@ package com.example.demo.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(indexes = @Index(name="user_task", columnList = "writer"))
 public class PersonalTask {
 
     @Id
@@ -17,19 +20,17 @@ public class PersonalTask {
 
     private String title;
 
-    private String content;
-
-    @Enumerated(EnumType.STRING)
-    private ProgressStatus progressStatus;
-
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User writer;
 
+    @ManyToOne(optional = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private GroupTask groupTask;
+
     @Builder
-    public PersonalTask(String title, String content, ProgressStatus progressStatus, User writer) {
+    public PersonalTask(String title, User writer) {
         this.title = title;
-        this.content = content;
-        this.progressStatus = progressStatus;
         this.writer = writer;
     }
 

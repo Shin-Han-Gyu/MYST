@@ -3,6 +3,8 @@ package com.example.demo.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -16,30 +18,21 @@ public class GroupTask {
     private Long id;
 
     private String title;
-    private String content;
 
     @Enumerated(EnumType.STRING)
     private CompleteOption completeOption;
-
-    @Enumerated(EnumType.STRING)
-    private DeleteOption deleteOption;
-
-    @Enumerated(EnumType.STRING)
-    private ProgressStatus progressStatus;
 
     @ManyToOne
     private User writer;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group;
 
     @Builder
-    public GroupTask(String title, String content, CompleteOption completeOption, DeleteOption deleteOption, ProgressStatus progressStatus, User writer, Group group) {
+    public GroupTask(String title, CompleteOption completeOption, User writer, Group group) {
         this.title = title;
-        this.content = content;
         this.completeOption = completeOption;
-        this.deleteOption = deleteOption;
-        this.progressStatus = progressStatus;
         this.writer = writer;
         this.group = group;
     }
