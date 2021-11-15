@@ -29,15 +29,15 @@ public class UserController {
 
     @PostMapping("/sign-up")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<SignInResDto> singUp(CreateUserReqDto userInfo) {
+    public ResponseEntity<String> singUp(CreateUserReqDto userInfo) {
         userService.CreateUser(userInfo);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @ApiOperation(value = "로그인")
     @PostMapping("/sign-in")
+    @ApiOperation(value = "로그인")
     public ResponseEntity<SignInResDto> signIn(@RequestBody @ApiParam(value = "userId, password") SignInReqDto signInInfo) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.signIn(signInInfo));
     }
-    
+
 }
