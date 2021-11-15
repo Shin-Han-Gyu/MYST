@@ -13,14 +13,14 @@ import java.util.List;
 public class UserResDto {
 
     private String name;
-    private String email;
+    private String userId;
     private List<GroupTask> groupTasks;
     private List<PersonalTask> personalTasks;
 
     public static UserResDto of(User user) {
         UserResDto userResDto = new UserResDto();
         userResDto.name = user.getName();
-        userResDto.email = user.getEmail();
+        userResDto.userId = user.getUserId();
         userResDto.groupTasks = user.getGroupTasks();
         userResDto.personalTasks = user.getPersonalTasks();
         return userResDto;

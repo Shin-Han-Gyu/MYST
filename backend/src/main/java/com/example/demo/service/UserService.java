@@ -4,6 +4,8 @@ import com.example.demo.domain.User;
 import com.example.demo.dto.CreateUserReqDto;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.config.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,16 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-
+    private final UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public User CreateUser(CreateUserReqDto userInfo) {
         User user = User.builder()
-                .email(userInfo.getEmail())
+                .userId(userInfo.getUserId())
                 .name(userInfo.getName())
                 .password(passwordEncoder.encode(userInfo.getPassword()))
                 .build();
@@ -33,5 +35,9 @@ public class UserService {
     }
 
 
-
+    public Boolean idDuplicationCheck(String userId) {
+        if(userRepository.findByUserId(userId).isPresent())
+            return true;
+        return false;
+    }
 }
