@@ -19,24 +19,31 @@ public class GroupTask {
 
     private String title;
 
-    private String content;
-
     @Enumerated(EnumType.STRING)
     private CompleteOption completeOption;
 
-    @ManyToOne
-    private User writer;
+    private boolean isComplete;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group;
 
     @Builder
-    public GroupTask(String title, String content, CompleteOption completeOption, User writer, Group group) {
+    public GroupTask(String title, CompleteOption completeOption, Group group) {
         this.title = title;
-        this.content = content;
         this.completeOption = completeOption;
-        this.writer = writer;
         this.group = group;
+    }
+
+    public void updateTask(String title) {
+        this.title = title;
+    }
+
+    public void doneTask() {
+        this.isComplete = true;
+    }
+
+    public void notDoneTask() {
+        this.isComplete = false;
     }
 }

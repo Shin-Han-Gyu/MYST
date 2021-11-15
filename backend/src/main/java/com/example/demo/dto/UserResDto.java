@@ -21,8 +21,8 @@ public class UserResDto {
         UserResDto userResDto = new UserResDto();
         userResDto.name = user.getName();
         userResDto.email = user.getEmail();
-        userResDto.groupTasks = user.getGroupTasks();
-        userResDto.personalTasks = user.getPersonalTasks();
+//        userResDto.groupTasks = user.getGroupTasks();
+//        userResDto.personalTasks = user.getPersonalTasks();
         return userResDto;
     }
 }

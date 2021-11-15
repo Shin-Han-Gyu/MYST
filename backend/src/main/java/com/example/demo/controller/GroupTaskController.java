@@ -28,7 +28,7 @@ public class GroupTaskController {
     @PostMapping("/{teamId}")
     public ResponseEntity<String> createGroupTask(@ApiIgnore final Authentication authentication, @PathVariable("teamId") Long groupId, @RequestBody TaskReqDto reqDto) {
         if(!check_Auth(authentication)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        if(groupTaskService.createGroupTask(jwt_to_userId(authentication), reqDto.getTaskName())) {
+        if(groupTaskService.createGroupTask(jwt_to_userId(authentication), groupId , reqDto)) {
             return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("FAIL");

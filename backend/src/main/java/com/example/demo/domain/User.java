@@ -27,11 +27,11 @@ public class User {
     @NotBlank
     private String password;
 
-    @OneToMany(mappedBy = "writer")
-    private List<GroupTask> groupTasks = new ArrayList<GroupTask>();
+//    @OneToMany(mappedBy = "writer")
+//    private List<GroupTask> groupTasks = new ArrayList<GroupTask>();
 
-    @OneToMany(mappedBy = "writer")
-    private List<PersonalTask> personalTasks = new ArrayList<PersonalTask>();
+//    @OneToMany(mappedBy = "writer")
+//    private List<PersonalTask> personalTasks = new ArrayList<PersonalTask>();
 
 
     @Builder
