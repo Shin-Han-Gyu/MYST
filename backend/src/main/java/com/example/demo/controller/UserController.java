@@ -37,12 +37,7 @@ public class UserController {
     @ApiOperation(value = "로그인")
     @PostMapping("/sign-in")
     public ResponseEntity<SignInResDto> signIn(@RequestBody @ApiParam(value = "userId, password") SignInReqDto signInInfo) {
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(userService.signIn(signInInfo));
     }
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserResDto> getUserInfo(@PathVariable Long userId) {
-        User user = userService.readUserById(userId);
-        return ResponseEntity.status(200).body(UserResDto.of(user));
-    }
+    
 }

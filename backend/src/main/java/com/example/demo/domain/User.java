@@ -38,6 +38,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "writer")
     private List<PersonalTask> personalTasks = new ArrayList<PersonalTask>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
     @Builder
     public User(String name, String userId, String password) {

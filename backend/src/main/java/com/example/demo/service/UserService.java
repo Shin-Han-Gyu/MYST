@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.domain.User;
 import com.example.demo.dto.CreateUserReqDto;
+import com.example.demo.dto.SignInReqDto;
+import com.example.demo.dto.SignInResDto;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.config.JwtTokenProvider;
@@ -39,5 +41,15 @@ public class UserService {
         if(userRepository.findByUserId(userId).isPresent())
             return true;
         return false;
+    }
+
+    public SignInResDto signIn(SignInReqDto signInInfo) {
+        User user = userRepository.findByUserId(signInInfo.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("가입되지않은 아이디입니다"));
+        if(!passwordEncoder.matches(signInInfo.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+        String jwt = jwtTokenProvider.createToken(signInInfo.getUserId(), user.getRoles());
+        return new SignInResDto(jwt, user.getName());
     }
 }
