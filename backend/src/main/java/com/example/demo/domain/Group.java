@@ -18,4 +18,6 @@ public class Group {
     private Long id;
 
     private String groupName;
+
+    private String content;
 }

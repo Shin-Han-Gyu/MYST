@@ -32,11 +32,11 @@ public class User implements UserDetails {
     @NotNull
     private String password;
 
-    @OneToMany(mappedBy = "writer")
-    private List<GroupTask> groupTasks = new ArrayList<GroupTask>();
+//    @OneToMany(mappedBy = "writer")
+//    private List<GroupTask> groupTasks = new ArrayList<GroupTask>();
 
-    @OneToMany(mappedBy = "writer")
-    private List<PersonalTask> personalTasks = new ArrayList<PersonalTask>();
+//    @OneToMany(mappedBy = "writer")
+//    private List<PersonalTask> personalTasks = new ArrayList<PersonalTask>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();

@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CompleteOption {
-    LEADER_PERMISSION, HALF_PERMISSION, PERSONAL_PERMISSION
+    DONE_BY_ALL, DONE_BY_ONE
 }
