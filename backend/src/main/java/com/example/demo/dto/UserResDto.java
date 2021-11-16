@@ -13,7 +13,7 @@ import java.util.List;
 public class UserResDto {
 
     private String name;
-    private String email;
+    private String userId;
     private List<GroupTask> groupTasks;
     private List<PersonalTask> personalTasks;
 
