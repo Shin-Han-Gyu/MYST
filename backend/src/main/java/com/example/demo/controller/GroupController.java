@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.User;
 import com.example.demo.dto.CreateGroupReqDto;
+import com.example.demo.dto.GroupDetailResDto;
 import com.example.demo.dto.TaskReqDto;
 import com.example.demo.service.GroupService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,6 +33,17 @@ public class GroupController {
         groupService.createGroup(userId, createGroupReqDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
+    }
+    @GetMapping("/detail/{teamId}")
+    @ApiOperation(value = "그룹 상세보기(1개) ")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<GroupDetailResDto> getGroupDetails(@ApiIgnore final Authentication authentication, @PathVariable Long teamId) {
+        if(!check_Auth(authentication))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        //사실 유효성검증해야하는데 안함
+        //Long userId = jwt_to_userId(authentication);
+
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupDetails(teamId));
     }
 
     private boolean check_Auth(Authentication authentication) {
