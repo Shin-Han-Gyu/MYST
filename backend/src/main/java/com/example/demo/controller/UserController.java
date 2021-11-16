@@ -30,7 +30,7 @@ public class UserController {
 
     @PostMapping("/sign-up")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<String> singUp(CreateUserReqDto userInfo) {
+    public ResponseEntity<String> singUp(@RequestBody @ApiParam(value = "아이디, 비번, 이름") CreateUserReqDto userInfo) {
         userService.CreateUser(userInfo);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
