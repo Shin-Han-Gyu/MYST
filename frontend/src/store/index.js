@@ -1,5 +1,7 @@
 import { createStore } from 'vuex'
 import login from './modules/login'
+import todo from './modules/todo'
+import myteam from './modules/myteam'
 
 export default createStore({
   state: {
@@ -10,5 +12,7 @@ export default createStore({
   },
   modules: {
     login,
+    todo,
+    myteam
   }
 })

@@ -8,7 +8,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-sm-0">
           <li class="nav-item" v-if="this.$store.state.login.username">
-            <a class="nav-link" href="#">My Team</a>
+            <a class="nav-link" @click="myteam()">My Team</a>
           </li>
           <li v-else></li>
         </ul>
@@ -44,6 +44,9 @@ export default {
     },
     signup() {
       this.$router.push({ name: "Signup" })
+    },
+    myteam() {
+      this.$router.push({ name: "MyTeam" })
     }
   }
 }

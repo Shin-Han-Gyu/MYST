@@ -2,7 +2,7 @@
 
 const state = {
   userToken: null,
-  username: null,
+  username: "null",
 };
 
 const actions = {

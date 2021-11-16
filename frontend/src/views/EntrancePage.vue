@@ -1,10 +1,17 @@
 <template>
-  <h1>entrance page</h1>
+  <h1>no login -> entrancepage</h1>
 </template>
 
 <script>
 export default {
-
+  name: "MainPage",
+  components: {
+  },
+  created() {
+    if (this.$store.state.login.username) {
+      this.$router.push({ name: "MainPage" })
+    }
+  }
 }
 </script>
 
