@@ -63,4 +63,29 @@ public class GroupService {
                                 .build();
         groupJoinRepository.save(groupJoin);
     }
+
+    public void acceptJoin(Long userId, Long teamId, Long leaderId) throws IllegalAccessException {
+        User leader = userRepository.findById(leaderId).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
+
+        GroupMember groupLeader = groupMemberRepository.findByTeamAndUser(team, leader).orElseThrow(NotFoundException::new);
+        if(groupLeader.getPosition() != Position.Leader)
+            throw new IllegalAccessException("승인 권한이 없습니다.");
+
+        GroupJoin groupJoin = groupJoinRepository.findByTeamAndUser(team, user)
+                .orElseThrow(NotFoundException::new);
+
+        groupJoin.acceptJoin();
+        groupJoinRepository.save(groupJoin);
+
+        GroupMember newMember = GroupMember.builder()
+                                    .team(team)
+                                    .user(user)
+                                    .position(Position.Member)
+                                    .build();
+        groupMemberRepository.save(newMember);
+
+    }
+
 }

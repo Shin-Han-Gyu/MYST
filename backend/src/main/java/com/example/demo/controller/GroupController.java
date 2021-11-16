@@ -72,8 +72,22 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
     }
 
+    @PatchMapping("/join/{teamId}/{userId}")
+    @ApiOperation(value = "그룹 가입 승인")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> acceptJoin(@ApiIgnore final Authentication authentication, @PathVariable Long teamId, @PathVariable Long userId) {
+        if(!check_Auth(authentication))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
-
+        Long leaderId = jwt_to_userId(authentication);
+        try {
+            groupService.acceptJoin(userId, teamId, leaderId);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("UNAUTHORIZED");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("OK");
+    }
 
     private boolean check_Auth(Authentication authentication) {
         if(authentication==null || !authentication.isAuthenticated()) return false;
