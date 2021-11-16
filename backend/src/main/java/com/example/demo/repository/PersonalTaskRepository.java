@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PersonalTaskRepository extends JpaRepository<PersonalTask, Long> {
-    List<PersonalTask> findByWriter(User writer);
+    List<PersonalTask> findByUser(User user);
     List<PersonalTask> findByGroupTask(GroupTask groupTask);
 }

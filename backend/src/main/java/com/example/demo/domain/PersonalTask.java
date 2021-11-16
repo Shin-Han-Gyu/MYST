@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(indexes = {@Index(columnList = "writer"), @Index(columnList = "groupTask")})
+//@Table(indexes = {@Index(columnList = "writer"), @Index(columnList = "groupTask")})
 public class PersonalTask {
 
     @Id
@@ -22,8 +22,9 @@ public class PersonalTask {
     private String title;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User writer;
+    private User user;
 
     @ManyToOne(optional = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -34,16 +35,16 @@ public class PersonalTask {
     private boolean isComplete;
 
     @Builder
-    public PersonalTask(String title, User writer, GroupTask groupTask) {
+    public PersonalTask(String title, User user, GroupTask groupTask) {
         this.title = title;
-        this.writer = writer;
+        this.user = user;
         this.groupTask = groupTask;
     }
 
     @Builder
-    public PersonalTask(String title, User writer) {
+    public PersonalTask(String title, User user) {
         this.title = title;
-        this.writer = writer;
+        this.user = user;
     }
 
     public void updateTask(String title) {

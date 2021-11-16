@@ -25,7 +25,7 @@ public class TaskService {
         User user = get_user(userId);
         if(user == null) return false;
 
-        PersonalTask personalTask = PersonalTask.builder().title(taskName).writer(user).build();
+        PersonalTask personalTask = PersonalTask.builder().title(taskName).user(user).build();
         personalTaskRepository.save(personalTask);
         return true;
     }
@@ -125,7 +125,7 @@ public class TaskService {
         User user = get_user(userId);
         if(user == null) return null;
 
-        List<PersonalTask> personalTasks = personalTaskRepository.findByWriter(user);
+        List<PersonalTask> personalTasks = personalTaskRepository.findByUser(user);
         List<TaskResDto> taskResDtoList = new ArrayList<>();
 
         // 스레딩 가능?
@@ -144,7 +144,7 @@ public class TaskService {
                 List<PersonalTask> same_group_tasks = personalTaskRepository.findByGroupTask(GT);
 
                 for(PersonalTask tt : same_group_tasks) {
-                    String name = tt.getWriter().getName();
+                    String name = tt.getUser().getName();
                     if(tt.isComplete()) doneMember.add(name);
                     else notYetMember.add(name);
                 }

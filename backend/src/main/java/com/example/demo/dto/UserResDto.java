@@ -20,7 +20,7 @@ public class UserResDto {
     public static UserResDto of(User user) {
         UserResDto userResDto = new UserResDto();
         userResDto.name = user.getName();
-        userResDto.email = user.getEmail();
+        userResDto.userId = user.getUserId();
 //        userResDto.groupTasks = user.getGroupTasks();
 //        userResDto.personalTasks = user.getPersonalTasks();
         return userResDto;
