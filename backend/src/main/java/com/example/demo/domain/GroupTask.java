@@ -28,6 +28,11 @@ public class GroupTask {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
+
     @Builder
     public GroupTask(String title, CompleteOption completeOption, Group group) {
         this.title = title;
