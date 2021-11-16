@@ -26,7 +26,7 @@ public class GroupTask {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Group group;
+    private Team team;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -34,10 +34,10 @@ public class GroupTask {
     private User user;
 
     @Builder
-    public GroupTask(String title, CompleteOption completeOption, Group group) {
+    public GroupTask(String title, CompleteOption completeOption, Team team) {
         this.title = title;
         this.completeOption = completeOption;
-        this.group = group;
+        this.team = team;
     }
 
     public void updateTask(String title) {

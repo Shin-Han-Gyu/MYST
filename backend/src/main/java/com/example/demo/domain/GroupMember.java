@@ -22,16 +22,16 @@ public class GroupMember {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Group group;
+    private Team team;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @Builder
-    public GroupMember(Position position, Group group, User user) {
+    public GroupMember(Position position, Team team, User user) {
         this.position = position;
-        this.group = group;
+        this.team = team;
         this.user = user;
     }
 }

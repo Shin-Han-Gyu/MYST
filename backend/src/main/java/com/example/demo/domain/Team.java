@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Group {
+public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,14 @@ public class Group {
 
     private String content;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "team")
     private List<GroupJoin> groupJoins = new ArrayList<>();
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "team")
     private List<GroupMember> groupMembers = new ArrayList<>();
 
     @Builder
-    public Group(String name, String content) {
+    public Team(String name, String content) {
         this.name = name;
         this.content = content;
     }

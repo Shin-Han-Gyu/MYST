@@ -1,6 +1,5 @@
 package com.example.demo.domain;
 
-import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -18,7 +17,7 @@ public class GroupJoin {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Group group;
+    private Team team;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
