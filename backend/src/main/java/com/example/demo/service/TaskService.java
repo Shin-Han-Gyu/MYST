@@ -135,7 +135,7 @@ public class TaskService {
 
             // 그룹 태스크일 경우
             if(GT != null) {
-                Group group = GT.getGroup();
+                Team team = GT.getTeam();
                 String done = GT.isComplete() ? "Y" : "N";
 
                 List<String> doneMember = new ArrayList<>();
@@ -155,8 +155,8 @@ public class TaskService {
                         done,
                         doneMember,
                         notYetMember,
-                        group.getId(),
-                        group.getGroupName()
+                        team.getId(),
+                        team.getName()
                 );
             }
 
