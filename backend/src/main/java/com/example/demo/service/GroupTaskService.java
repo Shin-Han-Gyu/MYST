@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GroupTaskService {
 
-    private final GroupRepository groupRepository;
+    private final TeamRepository teamRepository;
     private final GroupMemberRepository groupMemberRepository;
     private final GroupTaskRepository groupTaskRepository;
     private final PersonalTaskRepository personalTaskRepository;
@@ -26,17 +26,17 @@ public class GroupTaskService {
         User user = get_user(userId);
         if(user == null) return false;
 
-        Group group = get_group(groupId);
-        if(group == null) return false;
+        Team team = get_group(groupId);
+        if(team == null) return false;
 
         CompleteOption option = reqDto.getCompleteOption().equals("ALL") ? CompleteOption.DONE_BY_ALL : CompleteOption.DONE_BY_ONE;
 
         // 그룹 태스크 만들고 (옵션 빼먹지말고)
-        GroupTask groupTask = GroupTask.builder().title(reqDto.getTaskName()).completeOption(option).group(group).build();
+        GroupTask groupTask = GroupTask.builder().title(reqDto.getTaskName()).completeOption(option).team(team).build();
         groupTaskRepository.save(groupTask);
 
         // 해당되는 멤버들에 대해 각각의 개인 태스크 만들고
-        List<GroupMember> members = groupMemberRepository.findByGroup(group);
+        List<GroupMember> members = groupMemberRepository.findByTeam(team);
         for(GroupMember member : members) {
             PersonalTask personalTask = PersonalTask.builder().user(member.getUser()).groupTask(groupTask).build();
             personalTaskRepository.save(personalTask);
@@ -50,11 +50,11 @@ public class GroupTaskService {
         User user = get_user(userId);
         if(user == null) return null;
 
-        Group group = get_group(groupId);
-        if(group == null) return null;
+        Team team = get_group(groupId);
+        if(team == null) return null;
 
         // 그룹 아이디로 조회해서
-        List<GroupTask> groupTasks = groupTaskRepository.findByGroup(group);
+        List<GroupTask> groupTasks = groupTaskRepository.findByTeam(team);
         if(groupTasks.isEmpty()) return null;
 
         List<TaskResDto> resDtos = new ArrayList<>();
@@ -89,6 +89,6 @@ public class GroupTaskService {
     }
 
     // 해당 태스크가 유저가 속한 것인지 체크할 것!
-    private Group get_group(Long groupId) { return groupRepository.findById(groupId).orElse(null); }
+    private Team get_group(Long groupId) { return teamRepository.findById(groupId).orElse(null); }
     private User get_user(Long userId) { return userRepository.findById(userId).orElse(null); }
 }
