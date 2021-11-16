@@ -38,7 +38,7 @@ public class GroupTaskService {
         // 해당되는 멤버들에 대해 각각의 개인 태스크 만들고
         List<GroupMember> members = groupMemberRepository.findByGroup(group);
         for(GroupMember member : members) {
-            PersonalTask personalTask = PersonalTask.builder().writer(member.getUser()).groupTask(groupTask).build();
+            PersonalTask personalTask = PersonalTask.builder().user(member.getUser()).groupTask(groupTask).build();
             personalTaskRepository.save(personalTask);
         }
 
@@ -69,7 +69,7 @@ public class GroupTaskService {
             List<PersonalTask> same_group_tasks = personalTaskRepository.findByGroupTask(task);
 
             for(PersonalTask tt : same_group_tasks) {
-                String name = tt.getWriter().getName();
+                String name = tt.getUser().getName();
                 if(tt.isComplete()) doneMember.add(name);
                 else notYetMember.add(name);
             }
