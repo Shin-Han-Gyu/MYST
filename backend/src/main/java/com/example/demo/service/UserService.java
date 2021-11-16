@@ -49,7 +49,7 @@ public class UserService {
         if(!passwordEncoder.matches(signInInfo.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        String jwt = jwtTokenProvider.createToken(signInInfo.getUserId(), user.getRoles());
+        String jwt = jwtTokenProvider.createToken(user.getId(), user.getRoles());
         return new SignInResDto(jwt, user.getName());
     }
 }
