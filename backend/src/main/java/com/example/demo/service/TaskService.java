@@ -156,7 +156,7 @@ public class TaskService {
                         doneMember,
                         notYetMember,
                         group.getId(),
-                        group.getGroupName()
+                        group.getName()
                 );
             }
 

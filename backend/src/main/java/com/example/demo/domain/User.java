@@ -38,6 +38,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<PersonalTask> personalTasks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<GroupJoin> groupJoins = new ArrayList<>();
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
