@@ -6,6 +6,7 @@ import com.example.demo.domain.Position;
 import com.example.demo.domain.User;
 import com.example.demo.dto.CreateGroupReqDto;
 import com.example.demo.dto.GroupDetailResDto;
+import com.example.demo.dto.TeamResDto;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.GroupJoinRepository;
 import com.example.demo.repository.GroupMemberRepository;
@@ -14,6 +15,9 @@ import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +45,11 @@ public class GroupService {
     public GroupDetailResDto getGroupDetails( Long teamId) {
         Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
         return new GroupDetailResDto(team);
+    }
+
+    @Transactional
+    public List<TeamResDto> getGroupList(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        return user.getGroupMembers().stream().map(TeamResDto::new).collect(Collectors.toList());
     }
 }

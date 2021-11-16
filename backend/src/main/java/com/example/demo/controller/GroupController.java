@@ -4,6 +4,7 @@ import com.example.demo.domain.User;
 import com.example.demo.dto.CreateGroupReqDto;
 import com.example.demo.dto.GroupDetailResDto;
 import com.example.demo.dto.TaskReqDto;
+import com.example.demo.dto.TeamResDto;
 import com.example.demo.service.GroupService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,6 +47,16 @@ public class GroupController {
         //Long userId = jwt_to_userId(authentication);
 
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupDetails(teamId));
+    }
+    @GetMapping("/")
+    @ApiOperation(value = "가입된 그룹 리스트")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<List<TeamResDto>> getGroupList(@ApiIgnore final Authentication authentication) {
+        if(!check_Auth(authentication))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        Long userId = jwt_to_userId(authentication);
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupList(userId));
     }
 
     private boolean check_Auth(Authentication authentication) {
