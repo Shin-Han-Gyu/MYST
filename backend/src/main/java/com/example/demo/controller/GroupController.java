@@ -88,6 +88,25 @@ public class GroupController {
         }
         return ResponseEntity.status(HttpStatus.OK).body("OK");
     }
+    @DeleteMapping("/join/{teamId}/{userId}")
+    @ApiOperation(value = "그룹 가입 거절")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> deleteJoin(@ApiIgnore final Authentication authentication, @PathVariable Long teamId, @PathVariable Long userId) {
+        if(!check_Auth(authentication))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        Long leaderId = jwt_to_userId(authentication);
+        try {
+            groupService.deleteJoin(userId, teamId, leaderId);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("UNAUTHORIZED");
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("NO_CONTENT");
+    }
+
+
 
     private boolean check_Auth(Authentication authentication) {
         if(authentication==null || !authentication.isAuthenticated()) return false;
