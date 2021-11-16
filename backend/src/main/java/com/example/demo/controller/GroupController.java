@@ -59,6 +59,22 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupList(userId));
     }
 
+    @PostMapping("/join/{teamId}")
+    @ApiOperation(value = "그룹 가입 신청")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> createJoin(@ApiIgnore final Authentication authentication, @PathVariable Long teamId) {
+        if(!check_Auth(authentication))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        Long userId = jwt_to_userId(authentication);
+        groupService.createJoin(userId, teamId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
+    }
+
+
+
+
     private boolean check_Auth(Authentication authentication) {
         if(authentication==null || !authentication.isAuthenticated()) return false;
         else return true;

@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Team;
-import com.example.demo.domain.GroupMember;
-import com.example.demo.domain.Position;
-import com.example.demo.domain.User;
+import com.example.demo.domain.*;
 import com.example.demo.dto.CreateGroupReqDto;
 import com.example.demo.dto.GroupDetailResDto;
 import com.example.demo.dto.TeamResDto;
@@ -51,5 +48,19 @@ public class GroupService {
     public List<TeamResDto> getGroupList(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         return user.getGroupMembers().stream().map(TeamResDto::new).collect(Collectors.toList());
+    }
+
+    public void createJoin(Long userId, Long teamId) {
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
+
+        if(groupJoinRepository.countByTeamAndUser(team, user) != 0) return ;
+
+        GroupJoin groupJoin = GroupJoin.builder()
+                                .team(team)
+                                .user(user)
+                                .isAccepted(false)
+                                .build();
+        groupJoinRepository.save(groupJoin);
     }
 }

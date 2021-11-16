@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -25,4 +26,11 @@ public class GroupJoin {
 
     @ColumnDefault("false")
     private Boolean isAccepted;
+
+    @Builder
+    public GroupJoin(Team team, User user, Boolean isAccepted) {
+        this.team = team;
+        this.user = user;
+        this.isAccepted = isAccepted;
+    }
 }
