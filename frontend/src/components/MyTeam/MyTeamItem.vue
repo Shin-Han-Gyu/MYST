@@ -3,7 +3,7 @@
     <div class="card">
       <router-link :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
         <div class="card-body">
-          <p>{{ myteam.teamname }}</p>
+          <p>{{ myteam.name }}</p>
         </div>
       </router-link>
     </div>
@@ -16,11 +16,6 @@ export default {
   props: {
     myteam: Object
   },
-  methods: {
-    team: function () {
-      this.$router.push({ name: 'TeamCreate' })
-    },
-  }
 }
 </script>
 

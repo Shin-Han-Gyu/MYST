@@ -17,6 +17,14 @@ export default {
     MyTeamItem,
 
   },
+  data: function () {
+    return {
+      token: null
+    }
+  },
+  created() {
+    this.$store.dispatch("myteam/getTeamList", this.$store.state.login.userinfo.userToken)
+  },
   methods: {
     team: function () {
       this.$router.push({ name: 'TeamCreate' })
