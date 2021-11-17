@@ -16,6 +16,11 @@ export default {
   props: {
     myteam: Object
   },
+  methods: {
+    team: function () {
+      this.$router.push({ name: 'TeamCreate' })
+    },
+  }
 }
 </script>
 
