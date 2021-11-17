@@ -12,31 +12,30 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class GroupJoin {
-
+public class TeamColor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Team team;
+    private User user;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+    private Team team;
 
-    @ColumnDefault("false")
-    private Boolean isAccepted;
+    @ColumnDefault("#DDDDDD")
+    private String colorCode;
 
     @Builder
-    public GroupJoin(Team team, User user, Boolean isAccepted) {
-        this.team = team;
+    public TeamColor(User user, Team team, String colorCode) {
         this.user = user;
-        this.isAccepted = isAccepted;
+        this.team = team;
+        this.colorCode = colorCode;
     }
 
-    public void acceptJoin(){
-        this.isAccepted = true;
+    public void changeColor(String colorCode){
+        this.colorCode = colorCode;
     }
 }

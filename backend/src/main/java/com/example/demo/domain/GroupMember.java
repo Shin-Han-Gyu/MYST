@@ -34,4 +34,5 @@ public class GroupMember {
         this.team = team;
         this.user = user;
     }
+
 }

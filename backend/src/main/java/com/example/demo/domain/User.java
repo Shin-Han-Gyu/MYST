@@ -24,6 +24,7 @@ public class User implements UserDetails {
     private Long id;
 
     @NotNull
+    @UniqueElements
     private String userId;
 
     @NotNull
@@ -40,6 +41,13 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<GroupJoin> groupJoins = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<GroupMember> groupMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<TeamColor>  teamColors = new ArrayList<>();
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
