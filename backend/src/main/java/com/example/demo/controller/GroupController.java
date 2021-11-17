@@ -18,6 +18,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/api/group")
 public class GroupController {
 
@@ -29,7 +30,7 @@ public class GroupController {
     public ResponseEntity<String> createGroup(@ApiIgnore final Authentication authentication, @RequestBody CreateGroupReqDto createGroupReqDto) {
         if(!check_Auth(authentication))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-
+        System.out.println("들어옴---------------------");
         Long userId = jwt_to_userId(authentication);
         groupService.createGroup(userId, createGroupReqDto);
 
