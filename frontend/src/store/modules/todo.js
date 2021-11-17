@@ -8,13 +8,13 @@ const state = {
 
 const actions = {
   getMyTodo: function(context, token) {
-    context.commit("GET_JWT", token)
+    // context.commit("GET_JWT", token)
     axios({
       method: "get",
       url: `${SERVER.URL}/task/`,
       headers: {
         "Access-Control-Allow-Origin": "*",
-        Authorization: state.userToken
+        jwt: token
       },
     })
       .then((res) => {
@@ -24,13 +24,30 @@ const actions = {
       .catch((err) => {
         console.log(err)
       })
+  },
+  createTodo: function(context, todo, token) {
+    axios({
+      method: "post",
+      url: `${SERVER.URL}/task/`,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        jwt: token,
+      },
+      data: todo,
+    })
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 }
 
 const mutations = {
-  GET_JWT: function (state, data) {
-    state.userToken = data
-  },
+  // GET_JWT: function (state, data) {
+  //   state.userToken = data
+  // },
   GET_MY_TODO: function (state, data) {
     state.todolist2 = data
     console.log(state)
