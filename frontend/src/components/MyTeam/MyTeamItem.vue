@@ -4,6 +4,7 @@
       <router-link :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
         <div class="card-body">
           <p>{{ myteam.name }}</p>
+          <p>{{ myteam.content }}</p>
         </div>
       </router-link>
     </div>
