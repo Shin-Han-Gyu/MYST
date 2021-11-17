@@ -8,7 +8,7 @@ export default {
   components: {
   },
   created() {
-    if (this.$store.state.login.username) {
+    if (this.$store.state.login.userinfo.username != null) {
       this.$router.push({ name: "MainPage" })
     }
   }

@@ -17,9 +17,14 @@ export default {
     TodoCreate
   },
   created() {
-    if (!(this.$store.state.login.username)) {
+    if (this.$store.state.login.userinfo.username == null) {
+      console.log(this.$store.state.login.userinfo.username)
+      console.log("main to entrance")
       this.$router.push({ name: "EntrancePage" })
     }
+    console.log(this.$store.state.login.userinfo.userToken)
+    this.$store.dispatch("todo/getMyTodo", this.$store.state.login.userinfo.userToken)
+
   }
 }
 </script>

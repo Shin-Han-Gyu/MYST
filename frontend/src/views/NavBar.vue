@@ -7,14 +7,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-          <li class="nav-item" v-if="this.$store.state.login.username">
+          <li class="nav-item" v-if="this.$store.state.login.userinfo.username">
             <a class="nav-link" @click="myteam()">My Team</a>
           </li>
           <li v-else></li>
         </ul>
-        <ul class="navbar-nav d-flex" v-if="this.$store.state.login.username">
+        <ul class="navbar-nav d-flex" v-if="this.$store.state.login.userinfo.username">
           <li class="nav-item">
-            <a class="nav-link" href="#">Logout</a>
+            <a class="nav-link" @click="logout()">Logout</a>
           </li>
           <li class="nav-item nav-right">
             <a class="nav-link">My Page</a>
@@ -22,10 +22,10 @@
         </ul>
         <ul class="navbar-nav d-flex" v-else>
           <li class="nav-item">
-            <a class="nav-link" @click="login()">Login</a>
+            <a class="nav-link" style="cursor: pointer;" @click="login()">Login</a>
           </li>
           <li class="nav-item nav-right">
-            <a class="nav-link" @click="signup()">Signup</a>
+            <a class="nav-link" style="cursor: pointer;" @click="signup()">Signup</a>
           </li>
         </ul>
       </div>
@@ -38,6 +38,7 @@
 
 <script>
 export default {
+  name: "NavBar",
   methods: {
     login() {
       this.$router.push({ name: "Login" })
@@ -47,6 +48,10 @@ export default {
     },
     myteam() {
       this.$router.push({ name: "MyTeam" })
+    },
+    logout() {
+      this.$store.dispatch("login/deleteJWT")
+      this.$router.push({ name: "EntrancePage" })
     }
   }
 }

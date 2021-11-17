@@ -1,41 +1,47 @@
-// import axios from "axios";
+import axios from "axios"
+import SERVER from '@/api/api.js'
 
 const state = {
-  userToken: null,
-  username: "null",
+  userinfo: {
+    userToken: null,
+    username: null,
+  }
 };
 
 const actions = {
-  // getJWT: function(context, credentials) {
-  //   axios({
-  //     method: "post",
-  //     url: `${SERVER.URL}/user/login`,
-  //     headers: {
-  //       "Access-Control-Allow-Origin": "*",
-  //     },
-  //     data: credentials,
-  //   })
-  //     .then((res) => {
-  //       console.log(res.data.jwt)
-  //       context.commit("saveJWT", res.data.jwt)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // },
-  // deleteJWT: function(context) {
-  //   context.commit("deleteJWT");
-  // },
+  getJWT: function(context, credentials) {
+    console.log(state)
+    axios({
+      method: "post",
+      url: `${SERVER.URL}/user/sign-in`,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+      data: credentials,
+    })
+      .then((res) => {
+        console.log(res.data)
+        context.commit("saveJWT", res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  deleteJWT: function(context) {
+    context.commit("deleteJWT");
+  },
 };
 
 const mutations = {
-  // saveJWT: function(state, token) {
-  //   state.userToken = token;
-  //   console.log(state.userToken)
-  // },
-  // deleteJWT: function(state) {
-  //   state.userToken = null;
-  // },
+  saveJWT: function(state, data) {
+    state.userinfo.userToken = data.jwt
+    state.userinfo.username = data.name
+    console.log(state)
+  },
+  deleteJWT: function(state) {
+    state.userinfo.userToken = null
+    state.userinfo.username = null
+},
 };
 
 const getters = {

@@ -5,6 +5,7 @@ import Signup from '../views/Signup.vue'
 import MainPage from '../views/MainPage.vue'
 import MyTeam from '../views/MyTeam.vue'
 import TeamDetail from '@/components/MyTeam/TeamDetail.vue'
+import MyPage from '../views/MyPage.vue'
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     name: 'TeamDetail',
     component: TeamDetail,
     props: true,
+  },
+  {
+    path: '/mypage',
+    name: 'MyPage',
+    component: MyPage
   }
 ]
 
