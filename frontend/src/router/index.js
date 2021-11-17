@@ -6,6 +6,7 @@ import MainPage from '../views/MainPage.vue'
 import MyTeam from '../views/MyTeam.vue'
 import TeamDetail from '@/components/MyTeam/TeamDetail.vue'
 import MyPage from '../views/MyPage.vue'
+import TeamCreate from '@/components/MyTeam/TeamCreate.vue'
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: '/mypage',
     name: 'MyPage',
     component: MyPage
+  },
+  {
+    path: '/teamcreate',
+    name: 'TeamCreate',
+    component: TeamCreate
   }
 ]
 
