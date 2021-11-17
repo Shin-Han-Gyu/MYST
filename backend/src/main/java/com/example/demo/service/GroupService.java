@@ -1,15 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.*;
-import com.example.demo.dto.CreateGroupReqDto;
-import com.example.demo.dto.GroupDetailResDto;
-import com.example.demo.dto.GroupJoinListResDto;
-import com.example.demo.dto.TeamResDto;
+import com.example.demo.dto.*;
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.repository.GroupJoinRepository;
-import com.example.demo.repository.GroupMemberRepository;
-import com.example.demo.repository.TeamRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +19,7 @@ public class GroupService {
     private final TeamRepository teamRepository;
     private final GroupJoinRepository groupJoinRepository;
     private final GroupMemberRepository groupMemberRepository;
+    private final TeamColorRepository teamColorRepository;
 
     public void createGroup(Long userId, CreateGroupReqDto createGroupReqDto) {
         Team team = createGroupReqDto.toEntity();
@@ -101,6 +96,25 @@ public class GroupService {
 
         return groupJoinRepository.findAllByTeamAndIsAcceptedIsFalse(team)
                 .stream().map(GroupJoinListResDto::new).collect(Collectors.toList());
+    }
+
+    public void setTeamColor(Long userId, CreateTeamColorReqDto colorReqDto) {
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        Team team = teamRepository.findById(colorReqDto.getTeamId()).orElseThrow(NotFoundException::new);
+        TeamColor teamColor = teamColorRepository.findByTeamAndUser(team, user).orElse(
+                    TeamColor.builder()
+                            .team(team)
+                            .user(user)
+                            .build()
+            );
+        teamColor.changeColor(colorReqDto.getColorCode());
+        teamColorRepository.save(teamColor);
+    }
+
+    public List<TeamColorResDto> getTeamColor(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        return teamColorRepository.findAllByUser(user)
+                .stream().map(TeamColorResDto::new).collect(Collectors.toList());
     }
 
     private boolean isLeader(Team team, Long leaderId){

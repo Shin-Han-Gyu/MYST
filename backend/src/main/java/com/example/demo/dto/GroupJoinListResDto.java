@@ -2,8 +2,10 @@ package com.example.demo.dto;
 
 import com.example.demo.domain.GroupJoin;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class GroupJoinListResDto {
 
     private Long groupJoinId;
