@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.User;
-import com.example.demo.dto.CreateGroupReqDto;
-import com.example.demo.dto.GroupDetailResDto;
-import com.example.demo.dto.TaskReqDto;
-import com.example.demo.dto.TeamResDto;
+import com.example.demo.dto.*;
 import com.example.demo.service.GroupService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -105,7 +102,25 @@ public class GroupController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("NO_CONTENT");
     }
+    @GetMapping("/join/{teamId}")
+    @ApiOperation(value = "그룹 가입신청 리스트(리더에게만 보임)")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<List<GroupJoinListResDto>> getJoinList(@ApiIgnore final Authentication authentication, @PathVariable Long teamId) {
+        if(!check_Auth(authentication))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
+        Long leaderId = jwt_to_userId(authentication);
+
+        List<GroupJoinListResDto> groupJoinListResDtos;
+        try {
+            groupJoinListResDtos = groupService.getJoinList(teamId, leaderId);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(groupJoinListResDtos);
+    }
 
 
     private boolean check_Auth(Authentication authentication) {

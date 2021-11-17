@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.*;
 import com.example.demo.dto.CreateGroupReqDto;
 import com.example.demo.dto.GroupDetailResDto;
+import com.example.demo.dto.GroupJoinListResDto;
 import com.example.demo.dto.TeamResDto;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.GroupJoinRepository;
@@ -65,12 +66,10 @@ public class GroupService {
     }
 
     public void acceptJoin(Long userId, Long teamId, Long leaderId) throws IllegalAccessException {
-        User leader = userRepository.findById(leaderId).orElseThrow(NotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
 
-        GroupMember groupLeader = groupMemberRepository.findByTeamAndUser(team, leader).orElseThrow(NotFoundException::new);
-        if(groupLeader.getPosition() != Position.Leader)
+        if(!isLeader(team, leaderId))
             throw new IllegalAccessException("승인 권한이 없습니다.");
 
         GroupJoin groupJoin = groupJoinRepository.findByTeamAndUser(team, user)
@@ -89,16 +88,33 @@ public class GroupService {
     }
 
     public void deleteJoin(Long userId, Long teamId, Long leaderId) throws IllegalAccessException {
-        User leader = userRepository.findById(leaderId).orElseThrow(NotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
 
-        GroupMember groupLeader = groupMemberRepository.findByTeamAndUser(team, leader).orElseThrow(NotFoundException::new);
-        if(groupLeader.getPosition() != Position.Leader)
-            throw new IllegalAccessException("승인 권한이 없습니다.");
+        if(!isLeader(team, leaderId))
+            throw new IllegalAccessException("삭제 권한이 없습니다.");
 
         GroupJoin groupJoin = groupJoinRepository.findByTeamAndUser(team, user)
                 .orElseThrow(NotFoundException::new);
         groupJoinRepository.delete(groupJoin);
+    }
+
+    public List<GroupJoinListResDto> getJoinList(Long teamId, Long leaderId) throws IllegalAccessException{
+        Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
+
+        if(!isLeader(team, leaderId))
+            throw new IllegalAccessException("권한이 없습니다.");
+
+        return groupJoinRepository.findAllByTeamAndIsAcceptedIsFalse(team)
+                .stream().map(GroupJoinListResDto::new).collect(Collectors.toList());
+    }
+
+    private boolean isLeader(Team team, Long leaderId){
+        User leader = userRepository.findById(leaderId).orElseThrow(NotFoundException::new);
+        GroupMember groupLeader = groupMemberRepository.findByTeamAndUser(team, leader).orElseThrow(NotFoundException::new);
+
+        if(groupLeader.getPosition() != Position.Leader)
+            return false;
+        return true;
     }
 }
