@@ -65,40 +65,34 @@ public class GroupService {
         groupJoinRepository.save(groupJoin);
     }
 
-    public void acceptJoin(Long userId, Long teamId, Long leaderId) throws IllegalAccessException {
-        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
-
-        if(!isLeader(team, leaderId))
+    @Transactional
+    public void acceptJoin(Long groupJoinId, Long leaderId) throws IllegalAccessException {
+        GroupJoin groupJoin = groupJoinRepository.findById(groupJoinId).orElseThrow(NotFoundException::new);
+        if(!isLeader(groupJoin.getTeam(), leaderId))
             throw new IllegalAccessException("승인 권한이 없습니다.");
-
-        GroupJoin groupJoin = groupJoinRepository.findByTeamAndUser(team, user)
-                .orElseThrow(NotFoundException::new);
 
         groupJoin.acceptJoin();
         groupJoinRepository.save(groupJoin);
 
         GroupMember newMember = GroupMember.builder()
-                                    .team(team)
-                                    .user(user)
+                                    .team(groupJoin.getTeam())
+                                    .user(groupJoin.getUser())
                                     .position(Position.Member)
                                     .build();
         groupMemberRepository.save(newMember);
 
     }
 
-    public void deleteJoin(Long userId, Long teamId, Long leaderId) throws IllegalAccessException {
-        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
-
-        if(!isLeader(team, leaderId))
+    @Transactional
+    public void deleteJoin(Long groupJoinId, Long leaderId) throws IllegalAccessException {
+        GroupJoin groupJoin = groupJoinRepository.findById(groupJoinId).orElseThrow(NotFoundException::new);
+        if(!isLeader(groupJoin.getTeam(), leaderId))
             throw new IllegalAccessException("삭제 권한이 없습니다.");
 
-        GroupJoin groupJoin = groupJoinRepository.findByTeamAndUser(team, user)
-                .orElseThrow(NotFoundException::new);
         groupJoinRepository.delete(groupJoin);
     }
 
+    @Transactional
     public List<GroupJoinListResDto> getJoinList(Long teamId, Long leaderId) throws IllegalAccessException{
         Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
 
