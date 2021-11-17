@@ -27,6 +27,10 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<GroupMember> groupMembers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "team")
+    private List<TeamColor>  teamColors = new ArrayList<>();
+
+
     @Builder
     public Team(String name, String content) {
         this.name = name;

@@ -15,6 +15,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/group")
@@ -122,7 +123,29 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(groupJoinListResDtos);
     }
 
+    @PostMapping("/colors")
+    @ApiOperation(value = "개인별 - 팀별 컬러 지정")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> setTeamColor(@ApiIgnore final Authentication authentication, @RequestBody CreateTeamColorReqDto colorReqDto ) {
+        if(!check_Auth(authentication))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
+        Long userId = jwt_to_userId(authentication);
+        groupService.setTeamColor(userId, colorReqDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
+    }
+
+    @GetMapping("/colors")
+    @ApiOperation(value = "개인별 - 팀별 컬러 리스트")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<List<TeamColorResDto>> getTeamColor(@ApiIgnore final Authentication authentication) {
+        if(!check_Auth(authentication))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        Long userId = jwt_to_userId(authentication);
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.getTeamColor(userId));
+    }
     private boolean check_Auth(Authentication authentication) {
         if(authentication==null || !authentication.isAuthenticated()) return false;
         else return true;
