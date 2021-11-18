@@ -45,16 +45,12 @@ const actions = {
       })
   },
   checkTodo: function(context, data) {
-    if (data.teamId == -1) {
-      data.teamId = ""
-    }
     axios({
       method: 'patch',
-      url: `${SERVER.URL}/task/${data.teamId}`,
+      url: `${SERVER.URL}/task/${data.taskId}`,
       headers: {
         jwt: data.token
       },
-      data: data.taskId
     })
       .then((res) => {
         console.log(res)

@@ -55,7 +55,7 @@ export default {
   methods: {
     checkTodo () {
       this.taskDone = !this.taskDone
-      this.$store.dispatch("todo/checkTodo", { "taskId":this.todo.taskId, "teamId":this.todo.teamId, "token": this.$store.state.login.userinfo.userToken })
+      this.$store.dispatch("todo/checkTodo", { "taskId":this.todo.taskId, "token": this.$store.state.login.userinfo.userToken })
     }
   }
 
