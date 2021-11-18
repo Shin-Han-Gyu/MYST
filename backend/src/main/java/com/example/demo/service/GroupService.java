@@ -130,6 +130,17 @@ public class GroupService {
                 .stream().map(TeamColorResDto::new).collect(Collectors.toList());
     }
 
+    public TeamPositionResDto getTeamPosition(Long userId, Long teamId) {
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        Team team = teamRepository.findById(teamId).orElseThrow(NotFoundException::new);
+
+        if(groupMemberRepository.countByTeamAndUser(team, user) == 0){
+            return new TeamPositionResDto(userId, teamId, "None");
+        }
+
+        return new TeamPositionResDto(groupMemberRepository.findByTeamAndUser(team, user).orElseThrow(NotFoundException::new));
+    }
+
     private boolean isLeader(Team team, Long leaderId){
         User leader = userRepository.findById(leaderId).orElseThrow(NotFoundException::new);
         GroupMember groupLeader = groupMemberRepository.findByTeamAndUser(team, leader).orElseThrow(NotFoundException::new);

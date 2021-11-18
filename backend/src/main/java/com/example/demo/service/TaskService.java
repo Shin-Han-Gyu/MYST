@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.domain.*;
 import com.example.demo.dto.TaskResDto;
+import com.example.demo.dto.TeamColorResDto;
+import com.example.demo.dto.TeamResDto;
 import com.example.demo.repository.GroupTaskRepository;
 import com.example.demo.repository.PersonalTaskRepository;
 import com.example.demo.repository.UserRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -19,6 +22,8 @@ public class TaskService {
     private final GroupTaskRepository groupTaskRepository;
     private final PersonalTaskRepository personalTaskRepository;
     private final UserRepository userRepository;
+
+    private final GroupService groupService;
 
     @Transactional
     public boolean createPersonalTask(Long userId, String taskName) {
@@ -156,9 +161,11 @@ public class TaskService {
                         doneMember,
                         notYetMember,
                         team.getId(),
-                        team.getName()
+                        team.getName(),
+                        "#DDDDDD"
                 );
             }
+
 
             // 개인태스크의 경우
             else {
@@ -169,7 +176,40 @@ public class TaskService {
             taskResDtoList.add(resDto);
         }
 
+        List<TeamColorResDto> teamColorResDtos = groupService.getTeamColor(userId);
+        //컬러 세팅을 위한 정렬
+        Comparator<TaskResDto> taskResDtoComparator = new Comparator<TaskResDto>() {
+            @Override
+            public int compare(TaskResDto d1, TaskResDto d2) {
+                return (int)(d1.getTeamId() - d2.getTeamId());
+            }
+        };
+        taskResDtoList.sort(taskResDtoComparator);
+        colorSetting(taskResDtoList, teamColorResDtos);
+
         return taskResDtoList;
+    }
+
+
+    private void colorSetting(List<TaskResDto> taskResDtos, List<TeamColorResDto> teamColorResDtos){
+        int i = 0, j = 0;
+        while(i < teamColorResDtos.size() && j < taskResDtos.size()){
+            if(taskResDtos.get(j).getTeamId() == -1){
+                ++j; continue;
+            }
+
+            if(teamColorResDtos.get(i).getTeamId() == taskResDtos.get(j).getTeamId()){
+                String newColor = teamColorResDtos.get(i).getColorCode();
+                taskResDtos.get(j).changeColor(newColor);
+                ++j;
+            }
+            else if(teamColorResDtos.get(i).getTeamId() > taskResDtos.get(j).getTeamId()){
+                ++j;
+            }
+            else{
+                ++i;
+            }
+        }
     }
 
     // 해당 태스크가 유저가 속한 것인지 체크할 것!

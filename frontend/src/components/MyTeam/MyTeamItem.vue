@@ -1,14 +1,16 @@
 <template>
   <div class="container">
     <div class="card" :style="{'background-color': myColor}">
-      <router-link :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
+      <router-link class="card-router" :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
         <div class="card-body">
           <p class="teamname">{{ myteam.name }}</p>
-          <p>{{ myteam.content }}</p>
+          <p class="teamcontent">{{ myteam.content }}</p>
         </div>
       </router-link>
-      <input type="color" class="form-control form-control-color" id="exampleColorInput" v-model="color.colorCode">
-      <button class="btn btn-light" @click="colorChoose()">color 결정</button>
+      <div class="d-flex justify-content-end w-100">
+        <input type="color" class="form-control form-control-color" id="exampleColorInput" v-model="color.colorCode">
+        <button class="btn btn-light" @click="colorChoose()">color 변경</button>
+      </div>
     </div>
   </div>
 </template>
@@ -22,26 +24,27 @@ export default {
   data: function () {
     return {
       color: {
-        colorCode: null,
+        colorCode: this.myteam.colorCode,
         teamId: this.myteam.id
       },
-      myColor: null,
+      myColor: this.myteam.colorCode,
     }
   },
   created() {
-    console.log(this.$store.state.myteam.myTeamColor)
-    for (var d in this.$store.state.myteam.myTeamColor) {
-      console.log(this.$store.state.myteam.myTeamColor[d])
-      if (this.$store.state.myteam.myTeamColor[d].teamId === this.myteam.id) {
-        this.myColor = this.$store.state.myteam.myTeamColor[d].colorCode
-        this.color.colorCode = this.$store.state.myteam.myTeamColor[d].colorCode
-        console.log(this.myColor)
-      }
-    }
+    // console.log(this.$store.state.myteam.myTeamColor)
+    // for (var d in this.$store.state.myteam.myTeamColor) {
+    //   console.log(this.$store.state.myteam.myTeamColor[d])
+    //   if (this.$store.state.myteam.myTeamColor[d].teamId === this.myteam.id) {
+    //     this.myColor = this.$store.state.myteam.myTeamColor[d].colorCode
+    //     this.color.colorCode = this.$store.state.myteam.myTeamColor[d].colorCode
+    //     console.log(this.myColor)
+    //   }
+    // }
   },
   methods: {
     colorChoose: function () {
       this.$store.dispatch("myteam/colorChoose", this.color, this.$store.state.login.userinfo.userToken)
+      location.reload()
     }
   }
 }
@@ -51,10 +54,23 @@ export default {
 .container {
   margin-top: 1rem;
 }
+.card-router {
+  text-decoration-line: none;
+}
 
 .teamname {
-  text-decoration-line: none;
   color: black;
   font-size: 1.5rem;
+  font-family: "NanumBarunGothic-Regular";
+}
+
+.teamcontent {
+  text-decoration-line: none;
+  color: black;
+  font-size: 1.0rem;
+}
+
+#exampleColorInput{
+  margin-right: 10px;
 }
 </style>
