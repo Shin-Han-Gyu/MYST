@@ -26,6 +26,22 @@
               {{ todo.teamName }}
             </p>
           </div>
+          <!-- <div>
+            <p
+              class="todoteam"
+              :style="{ color: fontColor }"
+              v-if="todo.teamId != -1"
+            >
+              완료 : {{ this.todo.done }}
+            </p>
+            <p
+              class="todoteam"
+              :style="{ color: fontColor }"
+              v-if="todo.teamId != -1"
+            >
+              미완료 : {{ this.todo.notYet }}
+            </p>
+          </div> -->
           <div style="text-align: center;">
             <i
               v-if="taskDone === false"
