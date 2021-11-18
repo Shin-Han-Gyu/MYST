@@ -46,7 +46,7 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupDetails(teamId));
     }
     @GetMapping("/")
-    @ApiOperation(value = "가입된 그룹 리스트")
+    @ApiOperation(value = "가입된 그룹 리스트(색깔 추가)")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     public ResponseEntity<List<TeamResDto>> getGroupList(@ApiIgnore final Authentication authentication) {
         if(!check_Auth(authentication))
