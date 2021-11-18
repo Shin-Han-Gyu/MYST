@@ -3,7 +3,7 @@ import SERVER from "@/api/api.js"
 
 const state = {
   userToken: null,
-  todolist: [{id:1, todotitle:"1"},{id:2, todotitle:"2"},{id:3, todotitle: "3"}]
+  todolist: []
 }
 
 const actions = {
@@ -25,18 +25,20 @@ const actions = {
         console.log(err)
       })
   },
-  createTodo: function(context, todo, token) {
+  createTodo: function(context, ele) {
+    
     axios({
       method: "post",
-      url: `${SERVER.URL}/task/`,
+      url: `${SERVER.URL}/task/${ele.createTeam}`,
       headers: {
         "Access-Control-Allow-Origin": "*",
-        jwt: token,
+        jwt: ele.userToken,
       },
-      data: todo,
+      data: ele.newtodo,
     })
       .then((res) => {
         console.log(res.data)
+        actions.getMyTodo(context, ele.userToken)
       })
       .catch((err) => {
         console.log(err)
@@ -49,7 +51,7 @@ const mutations = {
   //   state.userToken = data
   // },
   GET_MY_TODO: function (state, data) {
-    state.todolist2 = data
+    state.todolist = data
     console.log(state)
   }
 }
