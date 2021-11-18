@@ -78,6 +78,7 @@ public class TaskController {
     public ResponseEntity<String> completeTodo(@ApiIgnore final Authentication authentication, @PathVariable("taskId") Long taskId) {
         if(!check_Auth(authentication)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         if(taskService.completeTodo(jwt_to_userId(authentication),taskId)) {
+            taskService.completeCheck(taskId);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("ACCEPTED");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("FAIL");
