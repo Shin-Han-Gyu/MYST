@@ -28,10 +28,6 @@
             <div>
               <p class="todotitle" :style="{ 'color': fontColor }">{{ todo.taskName }}</p>
             </div>
-            <div v-if="info.position !== 'None'">
-              <i v-if="todo.taskDone === 'N'" :style="{ 'color': fontColor }" class="far fa-square checkbox" @click="checkTodo(todo.taskId)"></i>
-              <i v-if="todo.taskDone === 'Y'" :style="{ 'color': fontColor }" class="far fa-check-square checkbox" @click="checkTodo(todo.taskId)"></i>
-            </div>
           </div>
       </div>
     </div>
