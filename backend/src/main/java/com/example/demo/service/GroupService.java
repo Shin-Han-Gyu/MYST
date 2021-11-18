@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,19 @@ public class GroupService {
     @Transactional
     public List<TeamResDto> getGroupList(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        return user.getGroupMembers().stream().map(TeamResDto::new).collect(Collectors.toList());
+        List<TeamColorResDto> teamColorResDtos = getTeamColor(userId);
+        List<TeamResDto> teamResDtos = user.getGroupMembers().stream().map(TeamResDto::new).collect(Collectors.toList());
+
+        Comparator<TeamResDto> teamResDtoComparator = new Comparator<TeamResDto>() {
+            @Override
+            public int compare(TeamResDto d1, TeamResDto d2) {
+                return (int)(d1.getId() - d2.getId());
+            }
+        };
+        teamResDtos.sort(teamResDtoComparator);
+        colorSetting(teamResDtos, teamColorResDtos);
+
+        return teamResDtos;
     }
 
     public void createJoin(Long userId, Long teamId) {
@@ -113,7 +126,7 @@ public class GroupService {
 
     public List<TeamColorResDto> getTeamColor(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        return teamColorRepository.findAllByUser(user)
+        return teamColorRepository.findAllByUserOrderByIdAsc(user)
                 .stream().map(TeamColorResDto::new).collect(Collectors.toList());
     }
 
@@ -124,5 +137,22 @@ public class GroupService {
         if(groupLeader.getPosition() != Position.Leader)
             return false;
         return true;
+    }
+
+    private void colorSetting(List<TeamResDto> teamResDtos, List<TeamColorResDto> teamColorResDtos){
+        int i = 0, j = 0;
+        while(i < teamColorResDtos.size() && j < teamResDtos.size()){
+            if(teamColorResDtos.get(i).getTeamId() == teamResDtos.get(j).getId()){
+                String newColor = teamColorResDtos.get(i).getColorCode();
+                teamResDtos.get(j).changeColor(newColor);
+                ++i;++j;
+            }
+            else if(teamColorResDtos.get(i).getTeamId() > teamResDtos.get(j).getId()){
+                ++j;
+            }
+            else{
+                ++i;
+            }
+        }
     }
 }

@@ -12,5 +12,5 @@ import java.util.Optional;
 @Repository
 public interface TeamColorRepository extends JpaRepository<TeamColor, Long> {
     Optional<TeamColor> findByTeamAndUser(Team team, User user);
-    List<TeamColor> findAllByUser(User user);
+    List<TeamColor> findAllByUserOrderByIdAsc(User user);
 }
