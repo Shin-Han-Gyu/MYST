@@ -17,7 +17,7 @@
             <a class="nav-link" style="cursor: pointer; color: white;" @click="logout()">Logout</a>
           </li>
           <li class="nav-item nav-right">
-            <a class="nav-link" style="cursor: pointer; color: white;">My Page</a>
+            <a class="nav-link" style="cursor: pointer; color: white;" @click="mypage()">My Page</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex" v-else>
@@ -55,6 +55,9 @@ export default {
     logout() {
       this.$store.dispatch("login/deleteJWT")
       this.$router.push({ name: "EntrancePage" })
+    },
+    mypage(){
+      this.$router.push({ name: "MyPage" }) 
     }
   }
 }
