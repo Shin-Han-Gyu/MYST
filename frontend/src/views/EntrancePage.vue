@@ -27,6 +27,6 @@ export default {
 <style>
   .form1{
     width: 100%;
-    height: 300px;
+    height: 100%;
   }
 </style>

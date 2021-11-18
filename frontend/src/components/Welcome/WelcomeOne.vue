@@ -14,9 +14,9 @@ export default {
 
 <style>
   .welcome1{
-    height: 1000px;
+    height: 100vh;
     width: 100%;
-    padding-bottom: 200px;
+    padding-bottom: 20vh;
     background-color:floralwhite;
     text-align: center;
   }
