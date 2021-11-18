@@ -4,11 +4,12 @@
       <div class="card-body">
         <div class="d-flex justify-content-between">
           <div>
-            <p :style="{ 'color': fontColor }">{{ todo.taskName }}</p>
-            <p :style="{ 'color': fontColor }" v-if="todo.teamId === -1">개인 todo</p>
-            <p :style="{ 'color': fontColor }" v-else>{{ todo.teamName }}</p>
+            <p class="todotitle" :style="{ 'color': fontColor }">{{ todo.taskName }}</p>
+            <p class="todoteam" :style="{ 'color': fontColor }" v-if="todo.teamId === -1">개인 todo</p>
+            <p class="todoteam" :style="{ 'color': fontColor }" v-else>{{ todo.teamName }}</p>
           </div>
-          <i :style="{ 'color': fontColor }" class="far fa-square checkbox"></i>
+          <i v-if="taskDone === false" :style="{ 'color': fontColor }" class="far fa-square checkbox" @click="checkTodo()"></i>
+          <i v-if="taskDone === true" :style="{ 'color': fontColor }" class="far fa-check-square checkbox" @click="checkTodo()"></i>
         </div>
 
       </div>
@@ -24,7 +25,8 @@ export default {
   },
   data: function () {
     return {
-      fontColor: "black"
+      fontColor: "black",
+      taskDone: false
     }
   },
   created () {
@@ -40,6 +42,21 @@ export default {
     } else {
       this.fontColor = "black"
     }
+    if (this.todo.teamId == -1 && this.todo.taskDone =="N") {
+      this.taskDone = false
+    } else if (this.todo.teamId == -1 && this.todo.taskDone == "Y") {
+      this.taskDone = true
+    } else if (this.$store.state.login.userinfo.username in this.todo.done) {
+      this.taskDone = true
+    } else {
+      this.taskDone = false
+    }
+  },
+  methods: {
+    checkTodo () {
+      this.taskDone = !this.taskDone
+      this.$store.dispatch("todo/checkTodo", { "taskId":this.todo.taskId, "teamId":this.todo.teamId, "token": this.$store.state.login.userinfo.userToken })
+    }
   }
 
 }
@@ -49,6 +66,18 @@ export default {
 .container {
   max-width: 800px;
   margin-top: 1rem;
+}
+
+.todotitle {
+  font-size: 1.5rem;
+  font-family: "NanumBarunGothic-Bold";
+  margin: 0;
+}
+
+.todoteam {
+  font-size: 1rem;
+  font-family: "NanumBarunGothic-Regular";
+  margin: 0;
 }
 
 .checkbox {
