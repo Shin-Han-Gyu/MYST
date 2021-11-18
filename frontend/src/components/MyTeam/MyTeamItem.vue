@@ -7,8 +7,10 @@
           <p>{{ myteam.content }}</p>
         </div>
       </router-link>
-      <input type="color" class="form-control form-control-color" id="exampleColorInput" v-model="color.colorCode">
-      <button class="btn btn-light" @click="colorChoose()">color 결정</button>
+      <div class="d-flex justify-content-end w-100">
+        <input type="color" class="form-control form-control-color" id="exampleColorInput" v-model="color.colorCode">
+        <button class="btn btn-light" @click="colorChoose()">color 변경</button>
+      </div>
     </div>
   </div>
 </template>
@@ -57,5 +59,9 @@ export default {
   text-decoration-line: none;
   color: black;
   font-size: 1.5rem;
+}
+
+#exampleColorInput{
+  margin-right: 10px;
 }
 </style>
