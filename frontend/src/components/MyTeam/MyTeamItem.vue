@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="card" :style="{'background-color': myColor}">
-      <router-link :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
+      <router-link class="card-router" :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
         <div class="card-body">
           <p class="teamname">{{ myteam.name }}</p>
           <p>{{ myteam.content }}</p>
@@ -54,11 +54,14 @@ export default {
 .container {
   margin-top: 1rem;
 }
+.card-router {
+  text-decoration-line: none;
+}
 
 .teamname {
-  text-decoration-line: none;
   color: black;
   font-size: 1.5rem;
+  font-family: "NanumBarunGothic-Regular";
 }
 
 #exampleColorInput{
