@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <i class="far fa-times-circle" @click="deleteTodo()"></i>
     <div class="card" :style="{'background-color': todo.colorCode}">
       <div class="card-body">
         <div class="d-flex justify-content-between">
@@ -57,6 +58,10 @@ export default {
     checkTodo () {
       this.taskDone = !this.taskDone
       this.$store.dispatch("todo/checkTodo", { "taskId":this.todo.taskId, "token": this.$store.state.login.userinfo.userToken })
+    },
+    deleteTodo () {
+      this.$store.dispatch("todo/deleteTodo", { "taskId":this.todo.taskId, "token": this.$store.state.login.userinfo.userToken })
+      location.reload()
     }
   }
 
