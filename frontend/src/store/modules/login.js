@@ -9,9 +9,9 @@ const state = {
 };
 
 const actions = {
-  getJWT: function(context, credentials) {
+  getJWT: async function(context, credentials) {
     console.log(state)
-    axios({
+    await axios({
       method: "post",
       url: `${SERVER.URL}/user/sign-in`,
       headers: {
