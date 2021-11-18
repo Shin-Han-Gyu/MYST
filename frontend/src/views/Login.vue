@@ -31,11 +31,12 @@ export default {
 <style scoped>
 .container {
   max-width: 350px;
-  margin: auto;
 }
 
 .login-title {
   font-size: 2rem;
+  font-family: 'Cafe24SsurroundAir';
+  color: white;
 }
 
 .form-control {

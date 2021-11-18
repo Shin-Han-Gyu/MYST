@@ -1,5 +1,4 @@
 <template>
-  <h1>팀 생성</h1>
   <div>
       <div class="container">
         <p class="teamcreate-title">팀 생성</p>
@@ -15,6 +14,7 @@ import axios from 'axios'
 import SERVER from '@/api/api.js'
 
 export default {
+  
   name: "TeamCreate",
   data: function () {
     return {
@@ -29,7 +29,10 @@ export default {
       console.log(this.team)
       axios({
         method: 'post',
-        url: `${SERVER.URL}/group`,
+        url: `${SERVER.URL}/group/`,
+        headers: {
+          jwt: this.$store.state.login.userinfo.userToken
+        },
         data: this.team,
       })
         .then((res) => {

@@ -1,7 +1,7 @@
 <template>
   <TodoList />
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
+  <button type="button" class="btn btn-create" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Todo 생성
   </button>
   <TodoCreate />
 </template>
@@ -29,6 +29,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.btn-create {
+  position: fixed;
+  background-color: rgb(31,78,121);
+  color: white;
+  bottom: 20px;
+  right: 20px;
+}
 </style>
