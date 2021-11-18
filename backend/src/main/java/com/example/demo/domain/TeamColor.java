@@ -25,7 +25,6 @@ public class TeamColor {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Team team;
 
-    @ColumnDefault("#DDDDDD")
     private String colorCode;
 
     @Builder
