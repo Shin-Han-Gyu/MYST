@@ -96,6 +96,14 @@ public class TaskService {
         personalTask.toggleTask();
         personalTaskRepository.save(personalTask);
 
+        return true;
+    }
+
+    @Transactional
+    public void completeCheck(Long taskId) {
+        PersonalTask personalTask = get_task(taskId);
+        if(personalTask == null) return;
+
         GroupTask groupTask = personalTask.getGroupTask();
 
         // Optional 그룹태스크의 경우 완료여부 확인 후 완료 체크
@@ -112,20 +120,19 @@ public class TaskService {
                 else All_Done = false;
             }
 
-            if(completeOption.equals("DONE_BY_ALL")) {
+            if(completeOption.equals(CompleteOption.DONE_BY_ALL)) {
                 if(All_Done) groupTask.doneTask();
                 else groupTask.notDoneTask();
                 groupTaskRepository.save(groupTask);
             }
-            
-            if(completeOption.equals("DONE_BY_ONE")) {
+
+            if(completeOption.equals(CompleteOption.DONE_BY_ONE)) {
                 if(Someone_Done) groupTask.doneTask();
                 else groupTask.notDoneTask();
                 groupTaskRepository.save(groupTask);
             }
         }
 
-        return true;
     }
 
     @Transactional(readOnly = true)
