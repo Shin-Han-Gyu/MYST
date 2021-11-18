@@ -47,10 +47,9 @@ export default {
     } else {
       this.fontColor = "black"
     }
-    console.log(this.todo.done.includes(this.$store.state.login.userinfo.username))
-    if (this.todo.teamId == -1 && this.todo.taskDone =="N") {
+    if (this.todo.teamId == -1 && this.todo.taskDone === "N") {
       this.taskDone = false
-    } else if (this.todo.teamId == -1 && this.todo.taskDone == "Y") {
+    } else if (this.todo.teamId == -1 && this.todo.taskDone === "Y") {
       this.taskDone = true
     } else if (this.todo.done.includes(this.$store.state.login.userinfo.username)) {
       this.taskDone = true
