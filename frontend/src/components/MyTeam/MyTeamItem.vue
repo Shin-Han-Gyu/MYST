@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card" :style="{'background-color': myColor}">
       <router-link :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
-        <div class="card-body" >
+        <div class="card-body">
           <p class="teamname">{{ myteam.name }}</p>
           <p>{{ myteam.content }}</p>
         </div>
@@ -29,8 +29,21 @@ export default {
     }
   },
   created() {
+    // console.log(this.$store.state.myteam.myTeamColor)
+    // for (var d in this.$store.state.myteam.myTeamColor) {
+    //   console.log(this.$store.state.myteam.myTeamColor[d])
+    //   if (this.$store.state.myteam.myTeamColor[d].teamId === this.myteam.id) {
+    //     this.myColor = this.$store.state.myteam.myTeamColor[d].colorCode
+    //     this.color.colorCode = this.$store.state.myteam.myTeamColor[d].colorCode
+    //     console.log(this.myColor)
+    //   }
+    // }
   },
   methods: {
+    colorChoose: function () {
+      this.$store.dispatch("myteam/colorChoose", this.color, this.$store.state.login.userinfo.userToken)
+      location.reload()
+    }
   }
 }
 </script>
