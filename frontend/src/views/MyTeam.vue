@@ -3,7 +3,9 @@
     v-for="myteam in $store.state.myteam.myteamlist"
     :key="myteam.id"
     :myteam="myteam"
+    class=""
   />
+
   <div class="container">
     <button class="btn team-btn" @click="team()">팀 생성</button>
   </div>
@@ -24,6 +26,7 @@ export default {
   },
   created() {
     this.$store.dispatch("myteam/getTeamList", this.$store.state.login.userinfo.userToken)
+    this.$store.dispatch("myteam/getTeamColor", this.$store.state.login.userinfo.userToken)
   },
   methods: {
     team: function () {
@@ -41,8 +44,6 @@ export default {
 .team-btn {
   width: 100%;
   background-color: rgba(255,255,255,0.7);
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
 }
 
 .myteam {

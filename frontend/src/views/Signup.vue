@@ -159,6 +159,8 @@ export default {
 
 .signup-title {
   font-size: 2rem;
+  font-family: 'Cafe24SsurroundAir';
+  color: white;
 }
 
 .signup-eletitle {
