@@ -1,24 +1,41 @@
 <template>
-  <div class="container">
-    <div>
-      <div class="card-body">
-        <div class="team-name">팀이름: {{ team.name }}</div>
-        <p></p>
-        <div class="team-content">팀 설명: {{ team.content }}</div>
-        <p></p>
-        <div>
-          팀원 리스트
-        </div>
-        <ol class="list-group list-group-numbered">
-          <li class="list-group-item" v-for="member in team.groupMemberDtos" :key="member">
-           ID: {{member.userId}}&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;NAME: {{member.userName}}
-          </li>
-        </ol>
+  <div class="bg-secondary container">
+    <div style="text-align: center;" class="text-white team-name">{{ team.name }}</div>
+    <p></p>
+    <div style="text-align: center;" class="text-white team-content">{{ team.content }}</div>
+    <p></p>
+    <div class="text-white team-content">
+      팀원 리스트
+    </div>
+    <ul class="list-group border border-3">
+      <li class="border-warning bg-secondary d-flex justify-content-around list-group-flush" v-for="member in team.groupMemberDtos" :key="member">
+        <div class="text-white p-2 flex-fill">ID: {{member.userId}}</div>  
+        <div class="text-white p-2 flex-fill">NAME: {{member.userName}}</div>
+      </li>
+    </ul>
+    <br>
+    <button type="button" v-if="info.position == 'Leader'" class="btn btn-btn" data-bs-toggle="modal" data-bs-target="#joinlist">
+      가입요청 확인
+    </button>
+    <br>
+    <button v-if="info.position == 'None'" class="btn btn-btn" @click="join()">가입신청</button>
+    <br>
+    <div class="team-content text-white">Todo List</div>
+    <div v-for="todo in todoList" :key="todo">
+      <div class="card" :style="{'background-color': todo.colorCode}">
+        <div class="card-body bg-warning">
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="todotitle" :style="{ 'color': fontColor }">{{ todo.taskName }}</p>
+            </div>
+            <div v-if="info.position !== 'None'">
+              <i v-if="todo.taskDone === 'N'" :style="{ 'color': fontColor }" class="far fa-square checkbox" @click="checkTodo(todo.taskId)"></i>
+              <i v-if="todo.taskDone === 'Y'" :style="{ 'color': fontColor }" class="far fa-check-square checkbox" @click="checkTodo(todo.taskId)"></i>
+            </div>
+          </div>
       </div>
-      <button type="button" v-if="info.position == 'Leader'" class="btn btn-btn" data-bs-toggle="modal" data-bs-target="#joinlist">
-        가입요청 확인
-      </button>
-      <button v-if="info.position == 'None'" class="btn btn-btn" @click="join()">가입신청</button>
+    </div>
+    <br>
     </div>
 
     <!-- Modal -->
@@ -72,6 +89,8 @@ export default {
         userId: null,
         groupJoinId: null,
       },
+      todoList: Object,
+      fontColor: "black",
     }
   },
   created() {
@@ -102,7 +121,7 @@ export default {
         })
         .catch((err) => {
           console.log(err)
-        })
+        }),
     axios({
         method: 'get',
         url: `${SERVER.URL}/group/join/${this.team.id}`,
@@ -117,9 +136,28 @@ export default {
         .catch((err) => {
           this.joinList = null
           console.log(err)
+        }),
+    axios({
+        method: 'get',
+        url: `${SERVER.URL}/task/${this.team.id}`,
+        headers: {
+          jwt: this.$store.state.login.userinfo.userToken
+        },
+      })
+        .then((res) => {
+          console.log(res)
+          this.todoList = res.data
+        })
+        .catch((err) => {
+          this.todoList = null
+          console.log(err)
         })
   },
   methods: {
+    checkTodo: function (taskId) {
+      this.$store.dispatch("todo/checkTodo", { "taskId":taskId, "token": this.$store.state.login.userinfo.userToken })
+      location.reload()
+    },
     join: function () {
       axios({
         method: 'post',
@@ -188,7 +226,7 @@ export default {
 }
 
 .team-content {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .btn-btn {
