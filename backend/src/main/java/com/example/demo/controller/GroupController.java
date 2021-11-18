@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.domain.User;
 import com.example.demo.dto.*;
 import com.example.demo.service.GroupService;
+import com.example.demo.service.TaskService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,7 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
+    private final TaskService taskService;
 
     @PostMapping("/")
     @ApiOperation(value = "그룹 생성")
@@ -79,6 +81,7 @@ public class GroupController {
         Long leaderId = jwt_to_userId(authentication);
         try {
             groupService.acceptJoin(groupJoinId, leaderId);
+            taskService.todoAddedByMember(groupJoinId);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("UNAUTHORIZED");

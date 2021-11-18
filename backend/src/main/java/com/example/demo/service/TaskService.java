@@ -4,6 +4,8 @@ import com.example.demo.domain.*;
 import com.example.demo.dto.TaskResDto;
 import com.example.demo.dto.TeamColorResDto;
 import com.example.demo.dto.TeamResDto;
+import com.example.demo.exception.NotFoundException;
+import com.example.demo.repository.GroupJoinRepository;
 import com.example.demo.repository.GroupTaskRepository;
 import com.example.demo.repository.PersonalTaskRepository;
 import com.example.demo.repository.UserRepository;
@@ -22,6 +24,7 @@ public class TaskService {
     private final GroupTaskRepository groupTaskRepository;
     private final PersonalTaskRepository personalTaskRepository;
     private final UserRepository userRepository;
+    private final GroupJoinRepository groupJoinRepository;
 
     private final GroupService groupService;
 
@@ -188,6 +191,26 @@ public class TaskService {
         colorSetting(taskResDtoList, teamColorResDtos);
 
         return taskResDtoList;
+    }
+
+    @Transactional
+    public void todoAddedByMember(Long groupJoinId) {
+        GroupJoin groupJoin = groupJoinRepository.findById(groupJoinId).orElseThrow(NotFoundException::new);
+
+        User newMember = groupJoin.getUser();
+        if(newMember == null) return;
+
+        Team team = groupJoin.getTeam();
+
+        List<GroupTask> tasks = groupTaskRepository.findByTeam(team);
+
+        for(GroupTask tt : tasks) {
+            if(!tt.isComplete()) {
+                PersonalTask temp = new PersonalTask(tt.getTitle(), newMember, tt);
+                personalTaskRepository.save(temp);
+            }
+        }
+        return;
     }
 
 
