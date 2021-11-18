@@ -2,7 +2,7 @@
   <div class="container">
     <p class="login-title">로그인</p>
     <input type="text" id="userid" class="form-control id-form" placeholder="아이디 입력" v-model="credentials.userId">
-    <input type="password" id="password" class="form-control pw-form" placeholder="비밀번호 입력" v-model="credentials.password">
+    <input type="password" id="password" class="form-control pw-form" placeholder="비밀번호 입력" v-model="credentials.password" @keyup.enter="login()">
     <button class="btn login-btn" @click="login()">로그인</button>
 
   </div>
