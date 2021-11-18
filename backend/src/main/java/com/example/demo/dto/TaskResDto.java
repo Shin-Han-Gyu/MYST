@@ -16,6 +16,7 @@ public class TaskResDto {
     private List<String> notYet;
     private Long teamId;
     private String teamName;
+    private String colorCode;
 
     public TaskResDto(Long taskId, String taskName, String taskDone) {
         this.taskId = taskId;
@@ -25,6 +26,7 @@ public class TaskResDto {
         this.notYet = null;
         this.teamId = Long.valueOf(-1);
         this.teamName = "";
+        this.colorCode = "#DDDDDD";
     }
 
     public TaskResDto(Long taskId, String taskName, String taskDone, List<String> done, List<String> notYet) {
@@ -35,5 +37,10 @@ public class TaskResDto {
         this.notYet = notYet;
         this.teamId = Long.valueOf(-1);
         this.teamName = "";
+        this.colorCode = "#DDDDDD";
+    }
+
+    public void changeColor(String colorCode){
+        this.colorCode = colorCode;
     }
 }
