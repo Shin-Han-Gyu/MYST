@@ -15,7 +15,6 @@ __https://k5a503.p.ssafy.io__
 4. [기술 상세 명세](#기술-상세-명세)
    - [Front End](#front-end)
    - [Back End](#back-end)
-   - [Block Chain](#block-chain)
 
 ---
 
