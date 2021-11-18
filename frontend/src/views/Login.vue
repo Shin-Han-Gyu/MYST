@@ -20,9 +20,9 @@ export default {
     }
   },
   methods: {
-    login: function () {
-      this.$store.dispatch("login/getJWT", this.credentials)
-      this.$router.push({ name: 'MainPage' })
+    login: async function () {
+      await this.$store.dispatch("login/getJWT", this.credentials)
+      this.$router.replace({ name: 'MainPage' })
     }
   }
 }
