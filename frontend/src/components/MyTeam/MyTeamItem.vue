@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div class="card" :style="{'background-color': myColor}">
-      <router-link :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
+      <router-link style=text-decoration:none; :to=" { name: 'TeamDetail', params: {id: myteam.id } }">
         <div class="card-body">
           <p class="teamname">{{ myteam.name }}</p>
-          <p>{{ myteam.content }}</p>
+          <p class="teamcontent">{{ myteam.content }}</p>
         </div>
       </router-link>
       <div class="d-flex justify-content-end w-100">
@@ -59,6 +59,12 @@ export default {
   text-decoration-line: none;
   color: black;
   font-size: 1.5rem;
+}
+
+.teamcontent {
+  text-decoration-line: none;
+  color: black;
+  font-size: 1.0rem;
 }
 
 #exampleColorInput{
