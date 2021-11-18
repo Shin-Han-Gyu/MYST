@@ -46,7 +46,7 @@ export default {
       this.taskDone = false
     } else if (this.todo.teamId == -1 && this.todo.taskDone == "Y") {
       this.taskDone = true
-    } else if (this.$store.state.login.userinfo.username in this.todo.done) {
+    } else if (this.todo.done.include(this.$store.state.login.userinfo.username)) {
       this.taskDone = true
     } else {
       this.taskDone = false
