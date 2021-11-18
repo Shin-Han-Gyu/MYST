@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between">
           <div>
             <p
-              v-if="taskDone"
+              v-if="this.todo.taskDone === 'Y'"
               class="todotitle"
               :style="{ color: fontColor }"
               style="text-decoration: line-through"
