@@ -11,6 +11,7 @@
           <div>
             <i v-if="taskDone === false" :style="{ 'color': fontColor }" class="far fa-square checkbox" @click="checkTodo()"></i>
             <i v-else :style="{ 'color': fontColor }" class="far fa-check-square checkbox" @click="checkTodo()"></i>
+            <br>
             <i class="far fa-times-circle checkbox" @click="deleteTodo()"></i>
           </div>
 
