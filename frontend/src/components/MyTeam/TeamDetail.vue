@@ -115,6 +115,7 @@ export default {
           this.joinList = res.data
         })
         .catch((err) => {
+          this.joinList = null
           console.log(err)
         })
   },
