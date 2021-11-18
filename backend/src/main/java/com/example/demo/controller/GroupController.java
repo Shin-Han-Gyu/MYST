@@ -145,7 +145,7 @@ public class GroupController {
         Long userId = jwt_to_userId(authentication);
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getTeamColor(userId));
     }
-    @GetMapping("/{teamId}")
+    @GetMapping("/position/{teamId}")
     @ApiOperation(value = "리더/멤버/미가입자 확인")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     public ResponseEntity<TeamPositionResDto> getTeamColor(@ApiIgnore final Authentication authentication, @PathVariable Long teamId) {
