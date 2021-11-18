@@ -8,7 +8,7 @@
             <p class="todoteam" :style="{ 'color': fontColor }" v-if="todo.teamId === -1">개인 todo</p>
             <p class="todoteam" :style="{ 'color': fontColor }" v-else>{{ todo.teamName }}</p>
           </div>
-          <div>
+          <div style="text-align: center;">
             <i v-if="taskDone === false" :style="{ 'color': fontColor }" class="far fa-square checkbox" @click="checkTodo()"></i>
             <i v-else :style="{ 'color': fontColor }" class="far fa-check-square checkbox" @click="checkTodo()"></i>
             <br>
