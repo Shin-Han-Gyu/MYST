@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <i class="far fa-times-circle" @click="deleteTodo()"></i>
     <div class="card" :style="{'background-color': todo.colorCode}">
       <div class="card-body">
         <div class="d-flex justify-content-between">
@@ -10,7 +9,9 @@
             <p class="todoteam" :style="{ 'color': fontColor }" v-else>{{ todo.teamName }}</p>
           </div>
           <i v-if="taskDone === false" :style="{ 'color': fontColor }" class="far fa-square checkbox" @click="checkTodo()"></i>
-          <i v-if="taskDone === true" :style="{ 'color': fontColor }" class="far fa-check-square checkbox" @click="checkTodo()"></i>
+          <i v-else :style="{ 'color': fontColor }" class="far fa-check-square checkbox" @click="checkTodo()"></i>
+          <i class="far fa-times-circle checkbox" @click="deleteTodo()"></i>
+
         </div>
 
       </div>
