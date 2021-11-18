@@ -43,6 +43,22 @@ const actions = {
       .catch((err) => {
         console.log(err)
       })
+  },
+  checkTodo: function(context, data) {
+    axios({
+      method: 'patch',
+      url: `${SERVER.URL}/task/${data.taskId}`,
+      headers: {
+        jwt: data.token
+      },
+    })
+      .then((res) => {
+        console.log(res)
+        actions.getMyTodo(context, data.token)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 }
 
